@@ -23,7 +23,8 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private UserService userService;
 
-
+    @Autowired
+    private TransactionService transactionService;
     public PrimaryAccount createPrimaryAccount() {
         PrimaryAccount primaryAccount = new PrimaryAccount();
         primaryAccount.setAccountBalance(new BigDecimal(0.0));
@@ -56,6 +57,7 @@ public class AccountServiceImpl implements AccountService {
             PrimaryTransaction primaryTransaction = new PrimaryTransaction(date,
                     "Deposit to primary account", "Account", "finished",
                     amount, primaryAccount.getAccountBalance(), primaryAccount);
+            transactionService.savePrimaryDepositTransaction(primaryTransaction);
         }
         else if(accountType.equalsIgnoreCase("Savings")){
             SavingsAccount savingsAccount = user.getSavingsAccount();
@@ -65,6 +67,7 @@ public class AccountServiceImpl implements AccountService {
             Date date = new Date();
             SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Deposit to savings account", "Account", "finished",
                     amount, savingsAccount.getAccountBalance(), savingsAccount);
+            transactionService.saveSavingsDepositTransaction(savingsTransaction);
         }
 
     }
@@ -80,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
 
             Date date = new Date();
             PrimaryTransaction primaryTransaction = new PrimaryTransaction(date, "Withdraw from Primary Account", "Account", "Finished", amount, primaryAccount.getAccountBalance(), primaryAccount);
-
+            transactionService.savePrimaryWithdrawTransaction(primaryTransaction);
         } else if (accountType.equalsIgnoreCase("Savings")) {
             SavingsAccount savingsAccount = user.getSavingsAccount();
             savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(new BigDecimal(amount)));
@@ -88,6 +91,7 @@ public class AccountServiceImpl implements AccountService {
 
             Date date = new Date();
             SavingsTransaction savingsTransaction = new SavingsTransaction(date, "Withdraw from savings Account", "Account", "Finished", amount, savingsAccount.getAccountBalance(), savingsAccount);
+            transactionService.saveSavingsWithdrawTransaction(savingsTransaction);
         }
     }
 }
