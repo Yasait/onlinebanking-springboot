@@ -1,7 +1,5 @@
 package com.example.banking.customer.config;
-
 import java.security.SecureRandom;
-
 import com.example.banking.customer.service.UserSecurityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
