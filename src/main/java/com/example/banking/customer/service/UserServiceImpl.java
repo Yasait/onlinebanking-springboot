@@ -31,9 +31,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AccountService accountService;
 
-    public void save(User user) {
-        userDao.save(user);
-    }
+
 
     public User findByUsername(String username) {
         return userDao.findByUsername(username);
@@ -61,6 +59,11 @@ public class UserServiceImpl implements UserService {
         return localUser;
     }
 
+    @Override
+    public User saveUser(User user) {
+            return userDao.save(user);
+    }
+
     public boolean checkUserExists(String username, String email){
         if (checkUsernameExists(username) || checkEmailExists(username)) {
             return true;
@@ -83,7 +86,10 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    public User saveUser (User user) {
-        return userDao.save(user);
+    @Override
+    public void save(User user) {
+            userDao.save(user);
     }
+
+
 }
